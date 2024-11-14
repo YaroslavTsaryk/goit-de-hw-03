@@ -17,4 +17,6 @@ prod_purch_total=prod_purch.select(['category','price','quantity']).withColumn('
 users_prod_purch=usersdf_clean.join(prod_purch,usersdf_clean.user_id == prod_purch.user_id)
 prod_purch_18_25=users_prod_purch.withColumn("cost",col("price")*col("quantity")).filter((col('Age')>18) & (col('Age')<25))
 
-prod_purch_18_25.show()
+prod_purch_18_25_total=prod_purch_18_25.select(['category','cost']).groupby('category').sum('cost')
+
+prod_purch_18_25_total.show()

@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, round
 
 spark = SparkSession.builder.appName("DZ3").getOrCreate()
 
@@ -28,6 +28,6 @@ differ_df=prod_purch_18_25_total.join(prod_purch_total,prod_purch_18_25_total.ca
 
 
 differ_df=differ_df.withColumn('part',col('y_total')/col('total')).drop(prod_purch_total.category1)
-
+differ_df=differ_df.withColumn('part',round(differ_df.part,2))
 
 differ_df.orderBy(col('part').desc()).select('category','part').limit(3).show()
